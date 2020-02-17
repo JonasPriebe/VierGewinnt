@@ -1,17 +1,62 @@
+import acm.program.GraphicsProgram;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
 
-public class VierGewinnt {
+import javax.swing.*;
+import acm.graphics.GOval;
+import acm.graphics.GRect;
 
+public class VierGewinnt extends GraphicsProgram {
+	public   void setPlayer1Col(String color) {
+		Player1col= Color.getColor(color); 
+	}
+	JComboBox<String> color1; // Methods for getting the state in the model or controller
+	JComboBox<String> color2;
+	/**
+	 * Color of Player1 tokens.
+	 */
+	public Color Player1col=null;
+	/**
+	 * Color of Player2 tokens.
+	 */
+	public Color Player2col=null;
+	/**
+	 * Representation of the playing field.
+	 */
+	public int[][] Spielfeld = new int[6][7];
+	// The menu
+	public void init() {
+		JLabel player1 = new JLabel("Player 1");
+		color1 = new JComboBox<String>();
+		color1.addItem("Yellow");
+		color1.addItem("Blue");
+		color1.addItem("Red");
+		color1.addItem("Black");
+		color1.addItem("Green"); // Can of course be more colors
+		add(player1, SOUTH);
+		add(color1, SOUTH);
+		addActionListeners();
+		JLabel player2 = new JLabel("Player 2");
+		color2 = new JComboBox<String>();
+		color2.addItem("Yellow");
+		color2.addItem("Blue");
+		color2.addItem("Red");
+		color2.addItem("Black");
+		color2.addItem("Green"); // Can of course be more colors
+		add(player2, SOUTH);
+		add(color2, SOUTH);
+
+		JButton play = new JButton("Play");
+		add(play, SOUTH);
+		addActionListeners();
+	}
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		VierGewinnt n = new VierGewinnt();
-
+		new VierGewinnt().start();
 	}
 
 	class Modell {
-		/**
-		 * Representation of the playing field.
-		 */
-		public int[][] array = new int[6][7];
+	
 		/**
 		 * Used to count the turns to determine the player at turn later on.
 		 */
@@ -24,14 +69,17 @@ public class VierGewinnt {
 		 * Player2 gametoken.
 		 */
 		final int token2 = 2;
-
+		
+		
+	
+		
 		public Modell() {
 
 		}
 		public void setToken(int collumn) {
 			if (checkValid(collumn)) {
 			if (collumnAvailable(collumn)) {
-				array[collumn][determineRow(collumn)]=turn();
+				Spielfeld[collumn][determineRow(collumn)]=turn();
 				turnCounter++;
 			}
 			}
@@ -42,7 +90,7 @@ public class VierGewinnt {
 		public void startGame() {
 			for (int n = 0; n < 6; n++) {
 				for (int m = 0; m < 7; m++) {
-					array[n][m] = 0;
+					Spielfeld[n][m] = 0;
 				}
 			}
 			turnCounter=1;
@@ -61,7 +109,22 @@ public class VierGewinnt {
 			}
 
 		}
-
+		/**
+		 * Method to set color of the tokens for player1.
+		 * @param input color chosen in controller.
+		 */
+		public Color getColor1() {
+			Color col1 = Player1col;
+			return col1;
+		}
+		/**
+		 * Method to set color of the tokens for player2.
+		 * @param input color chosen in controller.
+		 */
+		public Color getColor2() {
+			Color col2 = Player2col;
+			return col2;
+		}
 		/**
 		 * Checks if a row is not full, ergo if the player is able to put a token in it.
 		 * 
@@ -69,7 +132,7 @@ public class VierGewinnt {
 		 * @return if the row is available.
 		 */
 		public boolean collumnAvailable(int collumn) {
-			if (array[5][collumn] == 0) {
+			if (Spielfeld[5][collumn] == 0) {
 				return true;
 			} else {
 				return false;
@@ -86,7 +149,7 @@ public class VierGewinnt {
 		 */
 		public int getValue(int row, int collumn) {
 			int value = 0;
-			value = array[row][collumn];
+			value = Spielfeld[row][collumn];
 			return value;
 		}
 
@@ -98,7 +161,7 @@ public class VierGewinnt {
 		 */
 		public int determineRow(int collumn) {
 			for (int n = 0; n < 6; n++) {
-				if (array[n][collumn] == 0) {
+				if (Spielfeld[n][collumn] == 0) {
 					return n;
 				}
 			}
@@ -211,12 +274,12 @@ public class VierGewinnt {
 			for (int n = 0; n < 4; n++) {
 				for (int m = 0; m < 3; m++) {
 					count = 0;
-					if (array[m][n] != 0) {
+					if (Spielfeld[m][n] != 0) {
 
-						checkType = array[m][n];
+						checkType = Spielfeld[m][n];
 
 						for (int k = 1; k < 4; k++) {
-							if (array[m + k][n + k] == checkType) {
+							if (Spielfeld[m + k][n + k] == checkType) {
 								count++;
 							}
 							if (count == 3) {
@@ -243,11 +306,11 @@ public class VierGewinnt {
 			for (int n = 6; n > 3; n--) {
 				for (int m = 0; m < 3; m++) {
 					count = 0;
-					if (array[m][n] != 0) {
-						checkType = array[m][n];
+					if (Spielfeld[m][n] != 0) {
+						checkType = Spielfeld[m][n];
 
 						for (int k = 1; k < 4; k++) {
-							if (array[m + k][n - k] == checkType) {
+							if (Spielfeld[m + k][n - k] == checkType) {
 								count++;
 							}
 							if (count == 3) {
@@ -284,11 +347,49 @@ public class VierGewinnt {
 
 	}
 
-	class View {
-
-	}
 
 	class Controller {
+		public void actionPerformed(ActionEvent e) {
+			if(e.getActionCommand().equals("color1")){
+				setPlayer1Col(color1.getSelectedItem()+"");
+				
+			
+			}
+		}
 
 	}
+	class View extends GraphicsProgram {
+		/** The background rectangle. */
+		private GRect background;
+		/** The stones. */
+		private GOval stone;
+		/** The array in which all the stones are saved. */
+		private GOval stones[][] = new GOval[6][7];
+
+		/**
+		 * Constructor for the view. Creates the background and an "empty" grid.
+		 */
+		public View() {
+			background = new GRect(getWidth(), getHeight());
+			background.setFilled(true);
+			background.setColor(Color.WHITE);
+			add(background);
+
+			double size = getHeight() / 8 - 5;
+
+			for (int i = 5; i >= 0; i--) {
+				for (int j = 0; j < 7; j++) {
+					double x = (j + 1) * getWidth() / 9;
+					double y = ((5 - i) + 1) * getHeight() / 8;
+					stone = new GOval(x, y, size, size);
+					stone.setFilled(true);
+//					stone.setColor(Color.BLACK);      // get the information from the model
+					// about the color
+					stones[5 - i][j] = stone;
+					add(stones[5 - i][j]);
+				}
+			}
+		}
+	}
+
 }
