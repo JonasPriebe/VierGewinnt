@@ -11,7 +11,7 @@ public class VierGewinnt {
 		/**
 		 * Representation of the playing field.
 		 */
-		public int[][] array = new int[7][6];
+		public int[][] array = new int[6][7];
 		/**
 		 * Used to count the turns to determine the player at turn later on.
 		 */
@@ -40,8 +40,8 @@ public class VierGewinnt {
 		 * Method to start a new game which a
 		 */
 		public void startGame() {
-			for (int n = 0; n < 7; n++) {
-				for (int m = 0; m < 6; m++) {
+			for (int n = 0; n < 6; n++) {
+				for (int m = 0; m < 7; m++) {
 					array[n][m] = 0;
 				}
 			}
@@ -69,7 +69,7 @@ public class VierGewinnt {
 		 * @return if the row is available.
 		 */
 		public boolean collumnAvailable(int collumn) {
-			if (array[collumn][5] == 0) {
+			if (array[5][collumn] == 0) {
 				return true;
 			} else {
 				return false;
@@ -84,9 +84,9 @@ public class VierGewinnt {
 		 * @param row     of the field.
 		 * @return the value which is either 0,1,2.
 		 */
-		public int getValue(int collumn, int row) {
+		public int getValue(int row, int collumn) {
 			int value = 0;
-			value = array[collumn][row];
+			value = array[row][collumn];
 			return value;
 		}
 
@@ -98,7 +98,7 @@ public class VierGewinnt {
 		 */
 		public int determineRow(int collumn) {
 			for (int n = 0; n < 6; n++) {
-				if (array[collumn][n] == 0) {
+				if (array[n][collumn] == 0) {
 					return n;
 				}
 			}
@@ -211,12 +211,12 @@ public class VierGewinnt {
 			for (int n = 0; n < 4; n++) {
 				for (int m = 0; m < 3; m++) {
 					count = 0;
-					if (array[n][m] != 0) {
+					if (array[m][n] != 0) {
 
-						checkType = array[n][m];
+						checkType = array[m][n];
 
 						for (int k = 1; k < 4; k++) {
-							if (array[n + k][m + k] == checkType) {
+							if (array[m + k][n + k] == checkType) {
 								count++;
 							}
 							if (count == 3) {
@@ -243,11 +243,11 @@ public class VierGewinnt {
 			for (int n = 6; n > 3; n--) {
 				for (int m = 0; m < 3; m++) {
 					count = 0;
-					if (array[n][m] != 0) {
-						checkType = array[n][m];
+					if (array[m][n] != 0) {
+						checkType = array[m][n];
 
 						for (int k = 1; k < 4; k++) {
-							if (array[n - k][m + k] == checkType) {
+							if (array[m + k][n - k] == checkType) {
 								count++;
 							}
 							if (count == 3) {
