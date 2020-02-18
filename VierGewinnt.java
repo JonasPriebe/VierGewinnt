@@ -12,6 +12,11 @@ public class VierGewinnt extends GraphicsProgram {
 		JPanel panel = getRegionPanel(SOUTH);
 		
 		ActionController controller1 = new ActionController(modell, panel);
+		
+		GraphicalView view = new GraphicalView();
+		add(view);
+		
+		ConsoleView cView = new ConsoleView(modell);
 	}
 
 	public static void main(String[] args) {
