@@ -8,6 +8,7 @@ import acm.graphics.GRect;
 
 public class VierGewinnt extends GraphicsProgram {
 	public   void setPlayer1Col(String color) {
+		color.toUpperCase();
 		Player1col= Color.getColor(color); 
 	}
 	JComboBox<String> color1; // Methods for getting the state in the model or controller
@@ -23,7 +24,7 @@ public class VierGewinnt extends GraphicsProgram {
 	/**
 	 * Representation of the playing field.
 	 */
-	public int[][] Spielfeld = new int[6][7];
+	public int[][] Spielfeld = new int[7][7];
 	// The menu
 	public void init() {
 		JLabel player1 = new JLabel("Player 1");
@@ -45,7 +46,6 @@ public class VierGewinnt extends GraphicsProgram {
 		color2.addItem("Green"); // Can of course be more colors
 		add(player2, SOUTH);
 		add(color2, SOUTH);
-
 		JButton play = new JButton("Play");
 		add(play, SOUTH);
 		addActionListeners();
@@ -160,7 +160,7 @@ public class VierGewinnt extends GraphicsProgram {
 		 * @return the row in which the token falls, returns -1 if collumn is full.
 		 */
 		public int determineRow(int collumn) {
-			for (int n = 0; n < 6; n++) {
+			for (int n = 0; n <7; n++) {
 				if (Spielfeld[n][collumn] == 0) {
 					return n;
 				}
@@ -359,6 +359,7 @@ public class VierGewinnt extends GraphicsProgram {
 
 	}
 	class View extends GraphicsProgram {
+		Modell n = new Modell();
 		/** The background rectangle. */
 		private GRect background;
 		/** The stones. */
@@ -383,7 +384,11 @@ public class VierGewinnt extends GraphicsProgram {
 					double y = ((5 - i) + 1) * getHeight() / 8;
 					stone = new GOval(x, y, size, size);
 					stone.setFilled(true);
-//					stone.setColor(Color.BLACK);      // get the information from the model
+					if(n.turn()==1) {
+					stone.setColor(Player1col); }     // get the information from the model
+					else if (n.turn()==2) {
+						stone.setColor(Player2col);
+					}
 					// about the color
 					stones[5 - i][j] = stone;
 					add(stones[5 - i][j]);
