@@ -51,6 +51,14 @@ public class Spielfeld {
 	}
 
 	/**
+	 * @param state {@code true} if the game is started and {@code false} if not.
+	 * @return the state of the game.
+	 */
+	public boolean getGameOn() {
+		return this.gameOn;
+	}
+	
+	/**
 	 * @param row   the row.
 	 * @param col   the column.
 	 * @param value the new value.
@@ -215,9 +223,10 @@ public class Spielfeld {
 	 * @param spielfeld the field that should be started.
 	 */
 	public void startGame() {
+		this.spielfeld = new int[7][7];
 		this.setTurn(1);
 		this.setValueAt(0, 0, this.getPlayer());
 		this.gameOn = true;
 	}
-
+	
 }
