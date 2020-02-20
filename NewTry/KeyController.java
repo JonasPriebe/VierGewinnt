@@ -23,6 +23,7 @@ public class KeyController implements KeyListener {
 			break;
 		case KeyEvent.VK_S:
 			spielfeld.enterStone();
+			spielfeld.CheckWin();
 			spielfeld.setTurn(spielfeld.getTurn() + 1);
 			spielfeld.startTurn();
 			break;
