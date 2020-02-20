@@ -43,6 +43,7 @@ public class Spielfeld {
 	 * @return the player of the turn.
 	 */
 	public int getPlayer() {
+		this.CheckWin();
 		if (this.turn % 2 == 1) {
 			return 1;
 		} else {
@@ -57,14 +58,16 @@ public class Spielfeld {
 	public boolean getGameOn() {
 		return this.gameOn;
 	}
-	
+
 	/**
 	 * @param row   the row.
 	 * @param col   the column.
 	 * @param value the new value.
 	 */
 	public void setValueAt(int row, int col, int value) {
+
 		this.spielfeld[row][col] = value;
+
 		this.updateViews();
 	}
 
@@ -74,58 +77,138 @@ public class Spielfeld {
 	}
 
 	/**
+	 * Checks if the game is won after a turn or not.
+	 */
+	public void CheckWin() {
+		for (int i = 1; i < 7; i++) {
+			int player = checkRow(i);
+			if (player != 0) {
+				System.exit(0);
+			}
+		}
+		for(int i = 0; i < 7; i++) {
+			int player = checkColumn(i) ;
+					if(player != 0) {
+						System.exit(0);
+					}
+		}
+	}
+
+	/**
 	 * Checks a single row for a winning situation.
 	 * 
-	 * @param row the row.
-	 * @return The player, which has won or {@code 0} if no one has won.
+	 * @param index the row to check.
+	 * @return The player, that has won or {@code 0} if no one has won.
 	 */
-	public int CheckRow(int row) {
+	public int checkRow(int index) {
+		if (index < 1) {
+			throw new IllegalArgumentException();
+		}
 		int counter = 0;
 		int player = 0;
 		for (int col = 0; col < 7; col++) {
+			if (this.spielfeld[index][col] != 0 && counter == 0) {
+				player = this.spielfeld[index][col];
+				counter = 1;
+			}
+			if (col > 0 && this.spielfeld[index][col] == this.spielfeld[index][col - 1]) {
+				counter++;
+			} else if (col > 1 && this.spielfeld[index][col] != this.spielfeld[index][col - 1]) {
+				counter = 0;
+				player = 0;
+			}
 			if (counter == 4) {
 				return player;
-			}
-			if (counter > 0) {
-				if (this.spielfeld[row][col] == this.spielfeld[row][col - 1]) {
-					counter++;
-				} else {
-					counter = 0;
-					player = 0;
-				}
-			}
-			if (this.spielfeld[row][col] == 1 || this.spielfeld[row][col] == 2) {
-				player = this.spielfeld[row][col];
-				counter = 1;
 			}
 		}
 		return 0;
 	}
 
 	/**
-	 * Checks a single column for a winning situation.
-	 * 
-	 * @param col the column.
+	 * Checks a column for a winning situation.
+	 * @param index the column to check.
 	 * @return The player to win or {@code 0} if no one has won.
 	 */
-	public int CheckColumn(int col) {
+	public int checkColumn(int index) {
 		int counter = 0;
 		int player = 0;
 		for (int row = 1; row < 7; row++) {
+			if(this.spielfeld[row][index] != 0 && counter == 0) {
+				counter = 1;
+				player = this.spielfeld[row][index]; 
+			}
+			if(row > 1 && this.spielfeld[row][index] == this.spielfeld[row - 1][index]) {
+				counter++;
+			} else if(row > 1 && this.spielfeld[row][index] != this.spielfeld[row - 1][index]) {
+				counter = 0; 
+				player = 0;
+			}
 			if (counter == 4) {
 				return player;
 			}
-			if (counter > 0) {
-				if (this.spielfeld[row][col] == this.spielfeld[row - 1][col]) {
-					counter++;
-				} else {
-					counter = 0;
-					player = 0;
+		}
+		return 0;
+	}
+
+	/**
+	 * Method to check a right diagonal winning combination.
+	 * 
+	 * @return if there is a winning combination and if there is one which player
+	 *         wins.
+	 */
+	public int diagonalRight() {
+		int player = 0;
+		int counter = 0;
+
+		for (int n = 0; n < 4; n++) {
+			for (int m = 0; m < 3; m++) {
+				counter = 0;
+				if (this.spielfeld[m][n] != 0) {
+
+					player = this.spielfeld[m][n];
+
+					for (int k = 1; k < 4; k++) {
+						if (this.spielfeld[m + k][n + k] == player) {
+							counter++;
+						}
+						if (counter == 3) {
+							return player;
+						}
+					}
+
 				}
 			}
-			if (this.spielfeld[row][col] == 1 || this.spielfeld[row][col] == 2) {
-				player = this.spielfeld[row][col];
-				counter = 1;
+
+		}
+		return 0;
+	}
+
+	/**
+	 * Method to check a left diagonal winning combination.
+	 * 
+	 * @return if there is a winning combination and if there is one which player
+	 *         wins.
+	 */
+	public int diagonalLeft() {
+		int player = 0;
+		int counter = 0;
+		for (int n = 6; n > 3; n--) {
+			for (int m = 0; m < 3; m++) {
+				counter = 0;
+				if (this.spielfeld[m][n] != 0) {
+					player = this.spielfeld[m][n];
+
+					for (int k = 1; k < 4; k++) {
+						if (this.spielfeld[m + k][n - k] == player) {
+							counter++;
+						}
+						if (counter == 3) {
+							return player;
+						}
+					}
+
+				}
+
 			}
 		}
 		return 0;
@@ -228,5 +311,5 @@ public class Spielfeld {
 		this.setValueAt(0, 0, this.getPlayer());
 		this.gameOn = true;
 	}
-	
+
 }
