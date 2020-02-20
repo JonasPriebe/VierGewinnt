@@ -13,16 +13,16 @@ public class KeyController implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_D:
+		case KeyEvent.VK_RIGHT :
 			spielfeld.turnRight();
 			break;
-		case KeyEvent.VK_A:
+		case KeyEvent.VK_LEFT:
 			spielfeld.turnLeft();
 			
 			
 			
 			break;
-		case KeyEvent.VK_S:
+		case KeyEvent.VK_ENTER:
 			
 			spielfeld.enterStone();
 			spielfeld.setTurn(spielfeld.getTurn() + 1);

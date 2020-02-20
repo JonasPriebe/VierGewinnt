@@ -4,18 +4,17 @@ import javax.swing.*;
 public class ActionController implements ActionListener {
 
 	private Spielfeld spielfeld;
+	String[] colors = { "Yellow", "Blue", "Red", "Black", "Green" };
+	JComboBox<String> color1 = new JComboBox<String>(colors);
+	JComboBox<String> color2 = new JComboBox<String>(colors);
 
 	public ActionController(Spielfeld spielfeld, JPanel panel) {
 		this.spielfeld = spielfeld;
 
 		panel.add(new JLabel("Player 1"));
-		String[] colors = { "Yellow", "Blue", "Red", "Black", "Green" };
-		JComboBox color1 = new JComboBox(colors);
 		color1.addActionListener(this);
 		panel.add(color1);
-
 		panel.add(new JLabel("Player 2"));
-		JComboBox color2 = new JComboBox(colors);
 		color2.addActionListener(this);
 		panel.add(color2);
 
@@ -34,6 +33,17 @@ public class ActionController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("color1")) {
+			String color = color1.getSelectedItem().toString();
+			color1.setSelectedItem(color1.getSelectedItem());
+			spielfeld.setColor1(color);
+			
+		}
+		if (e.getActionCommand().equals("color2")) {
+			String color = color2.getSelectedItem().toString();
+			spielfeld.setColor2(color);
+			
+		}
 		if (e.getActionCommand().equals("Play")) {
 			if (spielfeld.getGameOn()) {
 
@@ -47,11 +57,8 @@ public class ActionController implements ActionListener {
 				spielfeld.startGame();
 			}
 		} else if (e.getActionCommand().equals("Quit")) {
-			if (!spielfeld.getGameOn()) {
-
-			} else {
-				System.exit(0);
-			}
+			System.exit(0);
+			
 		}
 
 	}
