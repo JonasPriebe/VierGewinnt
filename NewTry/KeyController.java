@@ -16,25 +16,30 @@ public class KeyController implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_D:
+		case KeyEvent.VK_RIGHT:
 			spielfeld.turnRight();
 			break;
 		case KeyEvent.VK_A:
+		case KeyEvent.VK_LEFT:
 			spielfeld.turnLeft();
 			break;
 		case KeyEvent.VK_S:
-			spielfeld.enterStone();
-			spielfeld.CheckWin();
-			spielfeld.setTurn(spielfeld.getTurn() + 1);
-			spielfeld.startTurn();
+		case KeyEvent.VK_ENTER:
+			boolean turnDone = spielfeld.enterStone();
+			spielfeld.checkWin();
+			if (turnDone) {
+				spielfeld.setTurn(spielfeld.getTurn() + 1);
+				spielfeld.startTurn();
+			}
 			break;
 		}
 	}
 
-	@Override	// Isn't needed.
+	@Override // Isn't needed.
 	public void keyReleased(KeyEvent e) {
 	}
 
-	@Override   // Isn't needed.
+	@Override // Isn't needed.
 	public void keyTyped(KeyEvent e) {
 	}
 
