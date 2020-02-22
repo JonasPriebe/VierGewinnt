@@ -83,6 +83,8 @@ public class Spielfeld {
 
 	/**
 	 * Checks if the game is won after a turn or not.
+	 * 
+	 * @return the player to win the game.
 	 */
 	public int checkWin() {
 		for (int i = 1; i < 7; i++) {
@@ -100,7 +102,7 @@ public class Spielfeld {
 		if (diagonalRight() != 0) {
 			return diagonalRight();
 		}
-		if(diagonalLeft() != 0) {
+		if (diagonalLeft() != 0) {
 			return diagonalRight();
 		}
 		return 0;
@@ -292,18 +294,23 @@ public class Spielfeld {
 	/**
 	 * Enters the stone in the wanted place. Checks for the column in which the
 	 * selected stone is and places it in the uppermost spot.
+	 * 
+	 * @return whether a stone was entered or not.
 	 */
-	public void enterStone() {
+	public boolean enterStone() {
 		int column = 0;
 		for (int col = 0; col < 7; col++) {
 			if (this.spielfeld[0][col] != 0) {
 				column = col;
 			}
 		}
-		this.setValueAt(0, column, 0);
 		int row = this.determineRow(column);
 		if (row != 0) {
+			this.setValueAt(0, column, 0);
 			this.setValueAt(row, column, this.getPlayer());
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -348,19 +355,51 @@ public class Spielfeld {
 	/**
 	 * Setter for player 1 color.
 	 * 
-	 * @param color is the output of JCombobox which will be put in here.
+	 * @param index is the output of JCombobox which will be put in here.
 	 */
-	public void setColor1(String color) {
-		this.color1 = Color.getColor(color);
+	public void setColor1(int index) {
+		switch (index) {
+		case 0:
+			this.color1 = Color.yellow;
+			break;
+		case 1: 
+			this.color1 = Color.blue;
+			break;
+		case 2:
+			this.color1 = Color.red;
+			break;
+		case 3: 
+			this.color1 = Color.black;
+			break;
+		case 4: 
+			this.color1 = Color.green;
+			break;
+		}
 	}
 
 	/**
 	 * Setter for player 2 color.
 	 * 
-	 * @param color is the output of JCombobox which will be put in here.
+	 * @param index is the output of JCombobox which will be put in here.
 	 */
-	public void setColor2(String color) {
-		this.color2 = Color.getColor(color);
+	public void setColor2(int index) {
+		switch (index) {
+		case 0:
+			this.color1 = Color.yellow;
+			break;
+		case 1: 
+			this.color1 = Color.blue;
+			break;
+		case 2:
+			this.color1 = Color.red;
+			break;
+		case 3: 
+			this.color1 = Color.black;
+			break;
+		case 4: 
+			this.color1 = Color.green;
+			break;
+		}
 	}
 
 }
