@@ -385,19 +385,19 @@ public class Spielfeld {
 	public void setColor2(int index) {
 		switch (index) {
 		case 0:
-			this.color1 = Color.yellow;
+			this.color2 = Color.yellow;
 			break;
 		case 1: 
-			this.color1 = Color.blue;
+			this.color2 = Color.blue;
 			break;
 		case 2:
-			this.color1 = Color.red;
+			this.color2 = Color.red;
 			break;
 		case 3: 
-			this.color1 = Color.black;
+			this.color2 = Color.black;
 			break;
 		case 4: 
-			this.color1 = Color.green;
+			this.color2 = Color.green;
 			break;
 		}
 	}
