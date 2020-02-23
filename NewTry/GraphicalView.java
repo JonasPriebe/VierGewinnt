@@ -79,6 +79,12 @@ public class GraphicalView extends GCompound implements MainView {
 			winner2.setFont("Arial-bold-80");
 			add(winner2, 0, 200);
 			break;
+		case 3: // "Animation" if it is a draw.
+			GLabel draw = new GLabel("It's a draw.");
+			draw.setColor(Color.black);
+			draw.setFont("Arial-bold-80");
+			add(draw, 0 , 200);
+			break;
 		default: // If no one has won.
 			if (counter > 0) {
 				add(background);
