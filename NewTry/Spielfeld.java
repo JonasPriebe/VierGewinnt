@@ -84,7 +84,7 @@ public class Spielfeld {
 	/**
 	 * Checks if the game is won after a turn or not.
 	 * 
-	 * @return the player to win the game.
+	 * @return the player to win the game, {@code 0} if no one has won or {@code 3} if it is a draw.
 	 */
 	public int checkWin() {
 		for (int i = 1; i < 7; i++) {
@@ -105,6 +105,18 @@ public class Spielfeld {
 		if (diagonalLeft() != 0) {
 			return diagonalRight();
 		}
+		int counter = 0;
+		for(int row = 1; row < 7; row++) {
+			for(int col = 0; col < 7; col++) {
+				if(getValueAt(row, col) == 0) {
+					counter++;
+				}
+			}
+		}
+		if(counter == 0) {
+			return 3; 
+		}
+		
 		return 0;
 	}
 
@@ -362,16 +374,16 @@ public class Spielfeld {
 		case 0:
 			this.color1 = Color.yellow;
 			break;
-		case 1: 
+		case 1:
 			this.color1 = Color.blue;
 			break;
 		case 2:
 			this.color1 = Color.red;
 			break;
-		case 3: 
+		case 3:
 			this.color1 = Color.black;
 			break;
-		case 4: 
+		case 4:
 			this.color1 = Color.green;
 			break;
 		}
@@ -387,16 +399,16 @@ public class Spielfeld {
 		case 0:
 			this.color2 = Color.yellow;
 			break;
-		case 1: 
+		case 1:
 			this.color2 = Color.blue;
 			break;
 		case 2:
 			this.color2 = Color.red;
 			break;
-		case 3: 
+		case 3:
 			this.color2 = Color.black;
 			break;
-		case 4: 
+		case 4:
 			this.color2 = Color.green;
 			break;
 		}
